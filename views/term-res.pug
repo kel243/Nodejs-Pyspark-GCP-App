@@ -1,0 +1,19 @@
+extends base
+
+block content
+    .container
+        a.back-link(href=`/service/${name}`) Go Back To Search
+        h2.first.term-header
+            | You searched for the term: #{term}
+        ul.result-list
+            li.result-item
+                span.results-section Word: 
+                span.results-section Doc Folder: 
+                span.results-section Doc Name: 
+                span.results-section Count: 
+            each result in results
+                li.result-item
+                    span.results-section #{result[0]}
+                    span.results-section #{result[1]}
+                    span.results-section #{result[2]}
+                    span.results-section #{result[3]}

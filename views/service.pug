@@ -1,0 +1,23 @@
+extends base
+
+block content
+    .container.center
+        h1.term-h1
+            | Engine was loaded &amp; Inverted indicies were constructed successfully!
+            br
+            br
+            | Please Select Action
+        a.btn(href=`/term/${name}`) Search for Term
+        a.btn(href=`/frequency/${name}`) Top-N
+        ul.result-list
+            li.result-item
+                span.results-section Word: 
+                span.results-section Directory: 
+                span.results-section File: 
+                span.results-section Count: 
+            each result in results
+                li.result-item
+                    span.results-section #{result[0]}
+                    span.results-section #{result[1]}
+                    span.results-section #{result[2]}
+                    span.results-section #{result[3]}

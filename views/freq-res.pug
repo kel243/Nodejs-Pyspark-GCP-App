@@ -1,0 +1,15 @@
+extends base
+
+block content
+    .container
+        a.back-link(href='/service') Go Back To Search
+        h2.freq-res-h2.term-header
+            | Top-N Frequent Terms
+        ul.result-list
+            li.result-item.freq
+                span.results-section Word: 
+                span.results-section Count: 
+            each result in results
+                li.result-item.freq
+                    span.results-section #{result[0]}
+                    span.results-section #{result[1]}

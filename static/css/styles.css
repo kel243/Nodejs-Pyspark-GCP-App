@@ -1,0 +1,127 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+.home-container {
+    text-align: center;
+    margin: 5px;
+    width: 95vw;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.home-header {
+    margin-top: 15%;
+}
+
+.btn {
+    color: black;
+    text-decoration: none;
+    background-color: white;
+    padding: 10px 0;
+    width: 300px;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin: 30px auto;
+    transition: all .2s;
+    display: block;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: lightcyan;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px grey;
+}
+
+.btn:active {
+    box-shadow: none;
+    transform: translateY(0);
+}
+
+.term-container {
+    text-align: center;
+    width: 95vw;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+input {
+    width: 350px;
+    font-size: 16px;
+}
+
+.term-h1 {
+    margin-bottom: 5%;
+    margin-top: 10%;
+}
+
+.freq-container {
+    text-align: center;
+    width: 95vw;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.freq-h1 {
+    margin-bottom: 5%;
+    margin-top: 10%;
+}
+
+.first {
+    margin-top: 5%;
+}
+
+h2 {
+    margin-left: 5%;
+}
+
+.container {
+    width: 95vw;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.back-link {
+    float: right;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.freq-res-h2 {
+    margin: 8% 5%;
+}
+
+.center {
+    text-align: center;
+}
+
+.result-list {
+    text-align: center;
+    list-style: none;
+    margin: 0 auto;
+    width: 50%;
+}
+
+.result-item {
+    margin: 2px auto;
+    display: flex;
+    width: 100%;
+}
+
+.results-section {
+    width: 10rem;
+}
+
+.term-header {
+    margin-bottom: 5rem;
+}
+
+.freq {
+    width: 50%;
+}

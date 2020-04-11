@@ -1,0 +1,19 @@
+{
+  "name": "homework1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ken Lin",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/dataproc": "^1.6.0",
+    "@google-cloud/storage": "^4.7.0",
+    "axios": "^0.19.2",
+    "express": "^4.17.1",
+    "pug": "^2.0.4",
+    "sleep": "^6.1.0"
+  }
+}
