@@ -274,7 +274,7 @@ const topnjob = async (path, n) => {
        }
    }
 
-   return items.splice(0, 20);
+   return items.splice(0, parseInt(n));
 };
 
 app.get('/', (req, res) => {
@@ -476,18 +476,6 @@ app.get('/frequency/tolstoy', async (req, res, next) => {
             console.log(err)
         }  
     }
-});
-
-app.get('/frequency', (req, res) => {
-    res.status(200).render('frequency', {
-        title: 'Top-N Search'
-    })
-});
-
-app.get('/freq-res', (req, res) => {
-    res.status(200).render('freq-res', {
-        title: 'Top-N Search Results'
-    })
 });
 
 app.listen(8081, () => {
