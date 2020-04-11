@@ -12,20 +12,24 @@ app.use(express.static("static"));
 
 const projectId = 'durable-circle-270223';
 
+// Create storage object
 const storage = new Storage({projectId, keyFilename: "./cred.json"});
 
+// Create cluster client
 const clusterClient = new dataproc.v1.ClusterControllerClient({
   apiEndpoint: 'us-west1-dataproc.googleapis.com',
   projectId,
   keyFilename: "./cred.json"
 });
 
+// Create job client
 const jobClient = new dataproc.v1.JobControllerClient({
     apiEndpoint: 'us-west1-dataproc.googleapis.com',
     projectId,
     keyFilename: "./cred.json"
   }); 
 
+// request for cluster
 const region = 'us-west1';
 const clusterName = 'cluster-6dde';
 const request = {
@@ -34,6 +38,7 @@ const request = {
   clusterName,
 };
 
+// Inverted index job
 const indexjob = async path => {
     let job = {
         projectId,
@@ -49,7 +54,11 @@ const indexjob = async path => {
         },
     };
 
+
+    // Submit job
     let [jobResp] = await jobClient.submitJob(job);
+
+    // Get job id
     const jobId = jobResp.reference.jobId;
 
     console.log(`Submitted job "${jobId}"`)
@@ -82,16 +91,20 @@ const indexjob = async path => {
       [jobResp] = await jobClient.getJob(jobReq);
     }
 
+    // Get cluster
     const [clusterResq] = await clusterClient.getCluster(request);
 
+    // Get output from bucket
     const output = await storage
         .bucket(clusterResq.config.configBucket)
         .file(`outputs/indexOutput/part-00000`)
         .download();
 
+    // Delete output file from bucket
     await storage.bucket(clusterResq.config.configBucket)
         .deleteFiles({ prefix: 'outputs/indexOutput/'}, function(err){})
 
+    // Parse and format output data
     const outputStr = output.toString();
     const outputArr = outputStr.split('\n');
 
@@ -115,6 +128,7 @@ const indexjob = async path => {
    return items.splice(0, 20);
 };
 
+// Term search job
 const termjob = async (path, term) => {
     let job = {
         projectId,
@@ -196,6 +210,7 @@ const termjob = async (path, term) => {
    return items.splice(0, 20);
 };
 
+// Top-n job
 const topnjob = async (path, n) => {
     let job = {
         projectId,
@@ -285,6 +300,7 @@ app.get('/', (req, res) => {
 
 app.get('/service/hugo', async (req, res, next) => {
     try {
+        // Submit inverted index job for Hugo files
         let results = await indexjob('Hugo');
       
         res.status(200).render('service', {
@@ -300,6 +316,7 @@ app.get('/service/hugo', async (req, res, next) => {
 
 app.get('/service/shakespeare', async (req, res, next) => {
     try {
+        // Submit inverted index job for shakespeare files
         let results = await indexjob('shakespeare');
       
         res.status(200).render('service', {
@@ -315,6 +332,7 @@ app.get('/service/shakespeare', async (req, res, next) => {
 
 app.get('/service/tolstoy', async (req, res, next) => {
     try {
+        // Submit inverted index job for Tolstoy files
         let results = await indexjob('Tolstoy');
       
         res.status(200).render('service', {
@@ -329,14 +347,15 @@ app.get('/service/tolstoy', async (req, res, next) => {
 });
 
 app.get('/term/hugo', async (req, res, next) => {
-
+    // Render input submission page if query length is 0
     if (Object.keys(req.query).length === 0) {
         res.status(200).render('term', {
             title: 'Term Search - Hugo',
             name: 'hugo'
         })
-    } else {
+    } else { // Run term search job and render results page if there is a term query
         try {
+            // Submit term search job on the value found in query
             let results = await termjob('Hugo', req.query.term);
           
             res.status(200).render('term-res', {
@@ -406,14 +425,14 @@ app.get('/term/tolstoy', async (req, res, next) => {
 });
 
 app.get('/frequency/hugo', async (req, res, next) => {
-
+    // Render input submission page if no query
     if (Object.keys(req.query).length === 0) {
         res.status(200).render('frequency', {
             title: 'Top N - Hugo',
             name: 'hugo'
         })
     } else {
-        try {
+        try { // Submit top-n job with n found in query and render results
             let results = await topnjob('Hugo', req.query.n);
           
             res.status(200).render('freq-res', {
